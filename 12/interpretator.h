@@ -4,47 +4,6 @@
 #include "commands.h"
 #include "parser.h"
 
-int runProgramm(const int comSize)
-{
-    int programState = 0;
-    for (int i = 1; i < comSize; ++i)
-    {
-        if (q_commands[i].id == JMP || q_commands[i].id == JMPC || q_commands[i].id == JMPCN)
-        {
-            int res = exCommand(q_commands[i].id, i);
-            if (res != -1)
-            {
-                i = res - 1;
-            }
-            else
-            {
-                return 1;
-            }
-        }
-        else if (q_commands[i].id == RET)
-        {
-            return 1;
-        }
-        else if (q_commands[i].id == RETC || q_commands[i].id == RETCN)
-        {
-            int res = exCommand(q_commands[i].id, i);
-            if (res == 0)
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            programState = exCommand(q_commands[i].id, i);
-            if (programState == 1)
-            {
-                return 1;
-            }
-        }
-    }
-    return programState;
-}
-
 int exCommand(const int type, const int comNum)
 {
     switch (type)
@@ -69,19 +28,9 @@ int exCommand(const int type, const int comNum)
         return stn();
         break;
     }
-    case AND:
-    {
-        return and(q_commands[comNum].value);
-        break;
-    }
     case ANDN:
     {
         return andn(q_commands[comNum].value);
-        break;
-    }
-    case OR:
-    {
-        return or(q_commands[comNum].value);
         break;
     }
     case ORN:
@@ -89,19 +38,9 @@ int exCommand(const int type, const int comNum)
         return orn(q_commands[comNum].value);
         break;
     }
-    case XOR:
-    {
-        return xor(q_commands[comNum].value);
-        break;
-    }
     case XORN:
     {
         return xorn(q_commands[comNum].value);
-        break;
-    }
-    case NOT:
-    {
-        not();
         break;
     }
     case ADD:
@@ -150,6 +89,26 @@ int exCommand(const int type, const int comNum)
         return le(q_commands[comNum].value);
         break;
     }
+    case OR:
+    {
+        return or (q_commands[comNum].value);
+        break;
+    }
+    case AND:
+    {
+        return and (q_commands[comNum].value);
+        break;
+    }
+    case NOT:
+    {
+        not();
+        break;
+    }
+    case XOR:
+    {
+        return xor (q_commands[comNum].value);
+        break;
+    }
     case LT:
     {
         return lt(q_commands[comNum].value);
@@ -186,6 +145,47 @@ int exCommand(const int type, const int comNum)
         break;
     }
     }
+}
+
+int runProgramm(const int comSize)
+{
+    int programState = 0;
+    for (int i = 1; i < comSize; ++i)
+    {
+        if (q_commands[i].id == JMP || q_commands[i].id == JMPC || q_commands[i].id == JMPCN)
+        {
+            int res = exCommand(q_commands[i].id, i);
+            if (res != -1)
+            {
+                i = res - 1;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        else if (q_commands[i].id == RET)
+        {
+            return 1;
+        }
+        else if (q_commands[i].id == RETC || q_commands[i].id == RETCN)
+        {
+            int res = exCommand(q_commands[i].id, i);
+            if (res == 0)
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            programState = exCommand(q_commands[i].id, i);
+            if (programState == 1)
+            {
+                return 1;
+            }
+        }
+    }
+    return programState;
 }
 
 #endif 
