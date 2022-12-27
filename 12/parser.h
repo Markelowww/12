@@ -137,14 +137,14 @@ int parseMark(const char* curCom, const int strNum)
 int parseCommand(char* comName, int comAddr, const int strNum)
 {
     long* curValue = (long*)malloc(1);
-    // парсим первую часть строки
+    // РїР°СЂСЃРёРј РїРµСЂРІСѓСЋ С‡Р°СЃС‚СЊ СЃС‚СЂРѕРєРё
     for (size_t i = comAddr + 1; i < strlen(comName) - 1; ++i)
     {
         if (comName[i] != ' ' && (comName[i + 1] == ' ' || comName[i + 1] == '\n'))
         {
-            // проверяем, что перед нами команда
+            // РїСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ РїРµСЂРµРґ РЅР°РјРё РєРѕРјР°РЅРґР°
             int comId = checkCommand(&comName[comAddr], i - comAddr + 1);
-            // команды, где нужно использовать поток ввода (in)
+            // РєРѕРјР°РЅРґС‹, РіРґРµ РЅСѓР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РїРѕС‚РѕРє РІРІРѕРґР° (in)
             if (comId == LD || comId == LDN)
             {
                 int resStream = parseStreamValue(comName, i + 1);
@@ -152,20 +152,20 @@ int parseCommand(char* comName, int comAddr, const int strNum)
                 q_commands[strNum].value = *curValue;
                 free(curValue);
             }
-            // команда, где нужно использовать поток вывода (out)
+            // РєРѕРјР°РЅРґР°, РіРґРµ РЅСѓР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РїРѕС‚РѕРє РІС‹РІРѕРґР° (out)
             else if (comId == ST || comId == STN)
             {
                 int resStream = parseStreamValue(comName, i + 1);
-                // добавляем команду ST, STN
+                // РґРѕР±Р°РІР»СЏРµРј РєРѕРјР°РЅРґСѓ ST, STN
                 q_commands[strNum].id = comId;
                 q_commands[strNum].value = *curValue;
                 free(curValue);
                 return OK;
             }
-            // команды без аргументов
+            // РєРѕРјР°РЅРґС‹ Р±РµР· Р°СЂРіСѓРјРµРЅС‚РѕРІ
             else if (comId == NOT || comId == RET || comId == RETC || comId == RETCN)
             {
-                // добавляем команду
+                // РґРѕР±Р°РІР»СЏРµРј РєРѕРјР°РЅРґСѓ
                 q_commands[strNum].id = comId;
                 q_commands[strNum].value = *curValue;
                 free(curValue);
@@ -173,7 +173,7 @@ int parseCommand(char* comName, int comAddr, const int strNum)
             }
             else if (comId == JMP || comId == JMPC || comId == JMPCN)
             {
-                // обрабатываем прыжки
+                // РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј РїСЂС‹Р¶РєРё
                 int resValue = parseJumpMark(comName, i + 1, strNum);
                 q_commands[strNum].id = comId;
                 return OK;
