@@ -59,7 +59,6 @@ int parseFile(const char* filename)
         }
         }
     }
-
     return lineCounter + 1;
 }
 
@@ -124,7 +123,6 @@ int parseMark(const char* curCom, const int strNum)
             free(curMark);
             ++parseState;
         }
-
         if (curCom[i] == ' ' && curCom[i + 1] != ' ' && parseState == 1)
         {
             markId = i;
@@ -137,14 +135,11 @@ int parseMark(const char* curCom, const int strNum)
 int parseCommand(char* comName, int comAddr, const int strNum)
 {
     long* curValue = (long*)malloc(1);
-    // парсим первую часть строки
     for (size_t i = comAddr + 1; i < strlen(comName) - 1; ++i)
     {
         if (comName[i] != ' ' && (comName[i + 1] == ' ' || comName[i + 1] == '\n'))
         {
-            // проверяем, что перед нами команда
             int comId = checkCommand(&comName[comAddr], i - comAddr + 1);
-            // команды, где нужно использовать поток ввода (in)
             if (comId == LD || comId == LDN)
             {
                 int resStream = parseStreamValue(comName, i + 1);
@@ -152,20 +147,16 @@ int parseCommand(char* comName, int comAddr, const int strNum)
                 q_commands[strNum].value = *curValue;
                 free(curValue);
             }
-            // команда, где нужно использовать поток вывода (out)
             else if (comId == ST || comId == STN)
             {
                 int resStream = parseStreamValue(comName, i + 1);
-                // добавляем команду ST, STN
                 q_commands[strNum].id = comId;
                 q_commands[strNum].value = *curValue;
                 free(curValue);
                 return OK;
             }
-            // команды без аргументов
             else if (comId == NOT || comId == RET || comId == RETC || comId == RETCN)
             {
-                // добавляем команду
                 q_commands[strNum].id = comId;
                 q_commands[strNum].value = *curValue;
                 free(curValue);
@@ -173,7 +164,6 @@ int parseCommand(char* comName, int comAddr, const int strNum)
             }
             else if (comId == JMP || comId == JMPC || comId == JMPCN)
             {
-                // обрабатываем прыжки
                 int resValue = parseJumpMark(comName, i + 1, strNum);
                 q_commands[strNum].id = comId;
                 return OK;
@@ -189,7 +179,6 @@ int parseCommand(char* comName, int comAddr, const int strNum)
             break;
         }
     }
-
     return ERROR_INVALID_COMMAND;
 }
 
@@ -239,7 +228,6 @@ int parseNumericValue(char* comValue, const int spaceId, long* value)
             }
         }
     }
-
     if (parseState < 3)
     {
         return ERROR_INVALID_OPERAND;
@@ -292,7 +280,6 @@ int parseStreamValue(char* comValue, const int spaceId)
             }
         }
     }
-
     if (parseState == 3)
     {
         return IN;
@@ -317,7 +304,7 @@ int parseJumpMark(char* comValue, const int spaceId, const int strNum)
         }
         if (parseState == 1)
         {
-            //printf("char:%cop", comValue[i]);
+            printf("char:%cop", comValue[i]);
             if (comValue[i] == ';')
             {
                 ++parseState;
@@ -341,4 +328,4 @@ int parseJumpMark(char* comValue, const int spaceId, const int strNum)
     }
     return OK;
 }
-#endif // PARSER_H
+#endif
