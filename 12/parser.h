@@ -4,10 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "errors.h"
 #include "interpretator.h"
-
 #define MAX_COMMAND_SIZE 100
 
 int parseFile(const char* fileName);
