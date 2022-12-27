@@ -5,7 +5,7 @@
 
 int main()
 {
-    int parseRes = parseFile("C:/Users/BAZOOK PC/Documents/Intepretator/template.txt");
+    int parseRes = parseFile("C:/Users/BAZOOK/Documents/Intepretator/template.txt");
     if (parseRes != -1)
     {
         parseRes = runProgramm(parseRes);
