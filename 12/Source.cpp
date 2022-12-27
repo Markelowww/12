@@ -9,7 +9,6 @@ int main()
     {
         parseRes = runProgramm(parseRes);
     }
-
     if (parseRes == 0)
     {
         printf("Everything works");
