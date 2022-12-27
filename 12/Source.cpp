@@ -5,10 +5,7 @@
 
 int main()
 {
-    // указываем путь до файла с кодом программы
-    int parseRes = parseFile("C:/Users/supre/OneDrive/Documents/Intepretator/template.txt");
-
-    // если ошибок парсинга нет, то можно выполнять код
+    int parseRes = parseFile("C:/Users/BAZOOK PC/Documents/Intepretator/template.txt");
     if (parseRes != -1)
     {
         parseRes = runProgramm(parseRes);
@@ -16,8 +13,8 @@ int main()
 
     if (parseRes == 0)
     {
-        printf("Everything good");
-    }
+        printf("Everything works");
+    } 
     else
     {
         printf("Runtime error");
